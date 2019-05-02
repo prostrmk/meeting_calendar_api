@@ -17,7 +17,12 @@ public class UserService extends AbstractService<User, UserRepository> {
     }
 
     @Override
-    boolean validate(User user) {
+    public boolean validate(User user) {
         return true;
     }
+
+    public User findUserByUsername(String username) {
+        return userRepository.findUserByUsername(username).block();
+    }
+
 }

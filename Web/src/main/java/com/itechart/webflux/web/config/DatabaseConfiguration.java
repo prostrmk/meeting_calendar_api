@@ -1,5 +1,7 @@
 package com.itechart.webflux.web.config;
 
+import com.itechart.webflux.core.repository.MeetingRepository;
+import com.itechart.webflux.core.repository.MeetingUserRepository;
 import io.r2dbc.postgresql.PostgresqlConnectionConfiguration;
 import io.r2dbc.postgresql.PostgresqlConnectionFactory;
 import io.r2dbc.spi.ConnectionFactory;
@@ -56,6 +58,16 @@ public class DatabaseConfiguration {
     @Bean
     public UserRepository userRepository(R2dbcRepositoryFactory factory) {
         return factory.getRepository(UserRepository.class);
+    }
+
+    @Bean
+    public MeetingRepository meetingRepository(R2dbcRepositoryFactory factory) {
+        return factory.getRepository(MeetingRepository.class);
+    }
+
+    @Bean
+    public MeetingUserRepository meetingUserRepository(R2dbcRepositoryFactory factory) {
+        return factory.getRepository(MeetingUserRepository.class);
     }
 
 }
