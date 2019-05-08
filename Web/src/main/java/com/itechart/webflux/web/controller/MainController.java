@@ -1,7 +1,7 @@
 package com.itechart.webflux.web.controller;
 
-import com.itechart.webflux.core.exceptions.ValidationNotPassedException;
-import com.itechart.webflux.core.model.User;
+import com.itechart.webflux.web.core.exceptions.ValidationNotPassedException;
+import com.itechart.webflux.web.core.model.User;
 import com.itechart.webflux.web.helpers.UserHelper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

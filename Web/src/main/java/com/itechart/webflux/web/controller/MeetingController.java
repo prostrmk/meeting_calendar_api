@@ -1,27 +1,31 @@
 package com.itechart.webflux.web.controller;
 
-import com.itechart.webflux.core.exceptions.ValidationNotPassedException;
-import com.itechart.webflux.core.model.Meeting;
-import com.itechart.webflux.core.model.MeetingUser;
-import com.itechart.webflux.core.model.User;
-import com.itechart.webflux.core.service.MeetingService;
-import com.itechart.webflux.core.service.MeetingUserService;
-import com.itechart.webflux.core.service.UserService;
+import com.itechart.webflux.web.core.exceptions.ValidationNotPassedException;
+import com.itechart.webflux.web.core.model.Meeting;
+import com.itechart.webflux.web.core.model.MeetingHistory;
+import com.itechart.webflux.web.core.model.MeetingUser;
+import com.itechart.webflux.web.core.model.User;
+import com.itechart.webflux.web.core.service.MeetingHistoryService;
+import com.itechart.webflux.web.core.service.MeetingService;
+import com.itechart.webflux.web.core.service.MeetingUserService;
+import com.itechart.webflux.web.core.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.concurrent.atomic.AtomicReference;
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-import static com.itechart.webflux.web.util.ResponseUtil.error;
-import static com.itechart.webflux.web.util.ResponseUtil.respond;
-
-@RequestMapping(value = "/api")
+@Slf4j
+@CrossOrigin
+@RequestMapping(value = "/api/meeting")
 @RestController
 public class MeetingController {
 
@@ -35,51 +39,53 @@ public class MeetingController {
     @Autowired
     private MeetingUserService meetingUserService;
 
+    @Autowired
+    private MeetingHistoryService meetingHistoryService;
+
     private Logger LOGGER = LoggerFactory.getLogger(MeetingController.class);
 
-    @GetMapping(value = "/meeting")
-    public Flux<MeetingUser> getMeetings() {
-        String name = SecurityContextHolder.getContext().getAuthentication().getName();
-        User baseUser = userService.findUserByUsername(name);
-        return meetingUserService.findByUserId(baseUser.getId());
+    @GetMapping
+    public Flux<Meeting> getMeetings() {
+        return meetingService.findAll();
     }
 
-    @DeleteMapping(value = "/meeting/{id}")
-    public ResponseEntity deleteMeeting(@PathVariable Long id) {
-        User baseUser = userService.findUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-        try {
-            meetingUserService.deleteByUserId(baseUser.getId());
-            return respond("status", "removed", 204);
-        } catch (Exception e) {
-            return error("Something went wrong", 500);
-        }
-    }
-
-    @PostMapping(value = "/meeting/user")
-    public ResponseEntity postMeetingUser(Long meetingId, Long userId) throws ValidationNotPassedException {
-        AtomicReference<ResponseEntity> responseEntity = new AtomicReference<>();
-        meetingService.findById(meetingId).doOnSuccess(meeting -> {
-            if (meeting == null) {
-                responseEntity.set(error("No such meeting", 400));
-            }
-            User user = userService.findById(userId).block();
-            if (user == null) {
-                responseEntity.set(error("No such user", 400));
-            }
-            try {
-                Mono<MeetingUser> save = meetingUserService.save(new MeetingUser(null, userId, meetingId));
-                responseEntity.set(respond("status", "saved", 202));
-            } catch (Exception e) {
-                LOGGER.error("Something went wrong during saving new meeting user");
-                responseEntity.set(error("Something went wrong", 500));
-            }
+    @PostMapping
+    public Mono<Meeting> postMeeting(Meeting meeting, ArrayList<String> idsStr) throws ValidationNotPassedException {
+        return meetingService.save(meeting).doOnSuccess(saved -> {
+            String meetingId = saved.getId();
+            idsStr.forEach(id -> {
+                try {
+                    meetingUserService.save(new MeetingUser(null, id, meetingId));
+                } catch (ValidationNotPassedException e) {
+                    log.error("Validation error", e);
+                }
+            });
         });
-        return responseEntity.get();
     }
 
-    @GetMapping(value = "/meeting/{id}")
-    public Mono<Meeting> getMeeting(@PathVariable Long id) {
+    @DeleteMapping(value = "/{id}")
+    public Mono<User> deleteMeeting(@PathVariable String id) {
+        return userService.findUserByUsername("asd");
+    }
+
+    @GetMapping(value = "/user")
+    public Flux<User> getUsers() {
+        return userService.findAll();
+    }
+
+    @PostMapping(value = "/user")
+    public ResponseEntity postMeetingUser(String meetingId, String userId) throws ValidationNotPassedException {
+        return null;
+    }
+
+    @GetMapping(value = "/{id}")
+    public Mono<Meeting> getMeeting(@PathVariable String id) {
         return meetingService.findById(id);
+    }
+
+    @GetMapping(value = "/history")
+    public Flux<MeetingHistory> getHistory() {
+        return meetingHistoryService.findAll();
     }
 
 }

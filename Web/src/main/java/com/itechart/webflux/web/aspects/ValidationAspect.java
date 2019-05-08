@@ -1,6 +1,6 @@
 package com.itechart.webflux.web.aspects;
 
-import com.itechart.webflux.core.exceptions.ValidationNotPassedException;
+import com.itechart.webflux.web.core.exceptions.ValidationNotPassedException;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
