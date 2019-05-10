@@ -1,5 +1,4 @@
-package com.itechart.webflux.web.core.model;
-
+package com.itechart.webflux.web.core.model.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,14 +11,12 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Document(collection = "meetingHistory")
-public class MeetingHistory implements Entity {
+@Document(collection = "meeting")
+public class Meeting implements Entity {
 
     @Id
     private String id;
-    private String userId;
-    private String meetingId;
-    private String usersCount;
+    private String name;
     private Date date;
 
 }

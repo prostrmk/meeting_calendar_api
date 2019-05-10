@@ -1,10 +1,10 @@
 package com.itechart.webflux.web.controller;
 
 import com.itechart.webflux.web.core.exceptions.ValidationNotPassedException;
-import com.itechart.webflux.web.core.model.Meeting;
-import com.itechart.webflux.web.core.model.MeetingHistory;
-import com.itechart.webflux.web.core.model.MeetingUser;
-import com.itechart.webflux.web.core.model.User;
+import com.itechart.webflux.web.core.model.entity.Meeting;
+import com.itechart.webflux.web.core.model.entity.MeetingHistory;
+import com.itechart.webflux.web.core.model.entity.MeetingUser;
+import com.itechart.webflux.web.core.model.entity.User;
 import com.itechart.webflux.web.core.service.MeetingHistoryService;
 import com.itechart.webflux.web.core.service.MeetingService;
 import com.itechart.webflux.web.core.service.MeetingUserService;
@@ -18,10 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 @Slf4j
 @CrossOrigin

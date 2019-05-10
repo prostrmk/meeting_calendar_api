@@ -1,6 +1,7 @@
 package com.itechart.webflux.web.aspects;
 
 import com.itechart.webflux.web.core.exceptions.ValidationNotPassedException;
+import com.itechart.webflux.web.exceptions.NoAccessException;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
@@ -21,6 +22,16 @@ public class ValidationAspect {
     ResponseEntity sendValidationNotPassedResponse(JoinPoint joinPoint, ValidationNotPassedException e) {
         try {
             return respond(String.format("{\"error\": \"%s\"}", e.getMessage()), 400);
+        } catch (Exception ex) {
+            LOGGER.error("Cannot process validation exception: ", e);
+            return null;
+        }
+    }
+
+    @AfterThrowing(pointcut = "execution(* com.itechart.webflux.web.*.*(..))", throwing = "e")
+    ResponseEntity sendValidationNotPassedResponse(JoinPoint joinPoint, NoAccessException e) {
+        try {
+            return respond(String.format("{\"error\": \"%s\"}", e.getMessage()), 403);
         } catch (Exception ex) {
             LOGGER.error("Cannot process validation exception: ", e);
             return null;

@@ -1,4 +1,4 @@
-package com.itechart.webflux.web.core.model;
+package com.itechart.webflux.web.core.model.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -6,17 +6,15 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Date;
-
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
-@Document(collection = "meeting")
-public class Meeting implements Entity {
+@Document(collection = "meetingUser")
+public class MeetingUser implements Entity {
 
     @Id
     private String id;
-    private String name;
-    private Date date;
+    private String userId;
+    private String meetingId;
 
 }

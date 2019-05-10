@@ -1,4 +1,4 @@
-package com.itechart.webflux.web.core.model;
+package com.itechart.webflux.web.core.model.entity;
 
 import java.io.Serializable;
 

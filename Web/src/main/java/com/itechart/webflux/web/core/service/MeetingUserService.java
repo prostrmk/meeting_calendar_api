@@ -1,7 +1,7 @@
 package com.itechart.webflux.web.core.service;
 
 import com.itechart.webflux.web.core.exceptions.ValidationNotPassedException;
-import com.itechart.webflux.web.core.model.MeetingUser;
+import com.itechart.webflux.web.core.model.entity.MeetingUser;
 import com.itechart.webflux.web.core.repository.MeetingUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package com.itechart.webflux.web.core.model;
+package com.itechart.webflux.web.core.model.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,7 +21,10 @@ public class User implements Entity {
     private String firstName;
     private String lastName;
     private String password;
+    private boolean active;
 
-
-
+    public User(String username, UserRole role) {
+        this.username = username;
+        this.role = role;
+    }
 }
