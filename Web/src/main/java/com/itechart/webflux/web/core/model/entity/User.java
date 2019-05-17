@@ -21,6 +21,9 @@ public class User implements Entity {
     private String firstName;
     private String lastName;
     private String password;
+    private String photo;
+    private String email;
+    private Integer age;
     private boolean active;
 
     public User(String username, UserRole role) {

@@ -1,6 +1,7 @@
 package com.itechart.webflux.web.core.service;
 
 import com.itechart.webflux.web.core.exceptions.ValidationNotPassedException;
+import com.itechart.webflux.web.core.model.dto.UserDto;
 import com.itechart.webflux.web.core.model.entity.Message;
 import com.itechart.webflux.web.core.repository.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,4 +48,7 @@ public class MessageService extends AbstractService<Message> {
         return update(message);
     }
 
+//    public Flux<UserDto> findConversations(String userId) {
+//        return repository.findConversations(userId);
+//    }
 }

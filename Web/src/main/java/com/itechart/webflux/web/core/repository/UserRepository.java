@@ -17,4 +17,6 @@ public interface UserRepository extends ReactiveMongoRepository<User, String> {
 //    @Query("{$project: {name: {$concat: [\"$firstName\", \" \", \"$lastName\"]}}}, {$match: {name: new RegExp(\":name\", 'i')}})")
     @Query("{firstName: ?0}")
     Flux<User> findUsersByFirstAndLastNames(@Param("name") String name);
+
+    Mono<User> findUserByEmail(String email);
 }

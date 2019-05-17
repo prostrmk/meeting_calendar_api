@@ -9,23 +9,26 @@ import com.itechart.webflux.web.core.service.MeetingHistoryService;
 import com.itechart.webflux.web.core.service.MeetingService;
 import com.itechart.webflux.web.core.service.MeetingUserService;
 import com.itechart.webflux.web.core.service.UserService;
+import com.itechart.webflux.web.util.CollectionUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 @Slf4j
 @CrossOrigin
 @RequestMapping(value = "/api/meeting")
 @RestController
 public class MeetingController {
-
 
     @Autowired
     private UserService userService;
@@ -40,11 +43,6 @@ public class MeetingController {
     private MeetingHistoryService meetingHistoryService;
 
     private Logger LOGGER = LoggerFactory.getLogger(MeetingController.class);
-
-    @GetMapping
-    public Flux<Meeting> getMeetings() {
-        return meetingService.findAll();
-    }
 
     @PostMapping
     public Mono<Meeting> postMeeting(Meeting meeting, ArrayList<String> idsStr) throws ValidationNotPassedException {
@@ -83,6 +81,15 @@ public class MeetingController {
     @GetMapping(value = "/history")
     public Flux<MeetingHistory> getHistory() {
         return meetingHistoryService.findAll();
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping
+    public Flux<Meeting> getMeetings() {
+        String name = SecurityContextHolder.getContext().getAuthentication().getName();
+
+//        meetingService.findByIdIn()
+        return null;
     }
 
 }

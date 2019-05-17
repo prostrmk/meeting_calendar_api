@@ -36,4 +36,8 @@ public class UserService extends AbstractService<User> {
     public Flux<User> findUsersByFirstNameAndLastName(String name) {
         return userRepository.findUsersByFirstAndLastNames(name);
     }
+
+    public Mono<User> findUserByEmail(String email) {
+        return userRepository.findUserByEmail(email);
+    }
 }

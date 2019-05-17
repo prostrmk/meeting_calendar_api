@@ -1,6 +1,7 @@
 package com.itechart.webflux.web.controller;
 
 import com.itechart.webflux.web.core.exceptions.ValidationNotPassedException;
+import com.itechart.webflux.web.core.model.dto.UserDto;
 import com.itechart.webflux.web.core.model.entity.Message;
 import com.itechart.webflux.web.core.model.entity.User;
 import com.itechart.webflux.web.core.service.MessageService;
@@ -73,5 +74,11 @@ public class MessageController {
             }
         });
     }
+
+//    @ResponseStatus(HttpStatus.OK)
+//    @GetMapping(value = "/conversations")
+//    public Flux<UserDto> getConversations() {
+//        return messageService.findConversations(null);
+//    }
 
 }
